@@ -1,13 +1,23 @@
-import { FlatList, Image, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import React from "react";
 import products from "../data/products";
-const ProductsScreen = () => {
+const ProductsScreen = ({ navigation }) => {
+  const productOnPressHandler = () => {
+    navigation.navigate("Product Details");
+  };
   return (
     <FlatList
       style={styles.container}
       data={products}
       renderItem={({ item }) => (
-        <View style={styles.itemContainer}>
+        <Pressable onPress={productOnPressHandler} style={styles.itemContainer}>
           <Image
             source={{
               uri: item.image,
@@ -18,7 +28,7 @@ const ProductsScreen = () => {
             <Text style={styles.itemNameTxt}>{item.name}</Text>
             <Text style={styles.itemPriceTxt}>$ {item.price}</Text>
           </View>
-        </View>
+        </Pressable>
       )}
       numColumns={2}
     />
@@ -30,7 +40,6 @@ export default ProductsScreen;
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: 10,
-    marginTop: 50,
   },
   image: {
     width: "100%",

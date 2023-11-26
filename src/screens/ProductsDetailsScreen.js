@@ -54,6 +54,7 @@ export default ProductsDetailsScreen;
 const styles = StyleSheet.create({
   detailsContainer: {
     padding: 18,
+    marginBottom: 60,
   },
   title: {
     fontSize: 34,
