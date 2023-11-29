@@ -1,30 +1,48 @@
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import cart from "../data/cart";
 import CartListItem from "../components/CartListItem";
+import { useSelector } from "react-redux";
+import {
+  selectDeliveryPrice,
+  selectVatPrice,
+  selectSubtotal,
+  selectTotalPrice,
+} from "../store/cartSlice";
+
 const ShoppingCartScreen = () => {
-  const ShoppingCartTotals = () => (
-    <View style={styles.totalContainer}>
-      <View style={styles.row}>
-        <Text style={styles.text}> subTotal</Text>
-        <Text style={styles.text}> 410,00 us $</Text>
+  const cartItems = useSelector((state) => state.cart.items);
+  const ShoppingCartTotals = () => {
+    const subTotal = useSelector(selectSubtotal);
+    const deliveryFee = useSelector(selectDeliveryPrice);
+    const vat = useSelector(selectVatPrice);
+    const total = useSelector(selectTotalPrice);
+    return (
+      <View style={styles.totalContainer}>
+        <View style={styles.row}>
+          <Text style={styles.text}> subTotal</Text>
+          <Text style={styles.text}> {subTotal} us $</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.text}> Delivery fee</Text>
+          <Text style={styles.text}> {deliveryFee} us $</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.text}> Vat</Text>
+          <Text style={styles.text}> {vat} us $</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.textBold}> Total</Text>
+          <Text style={styles.textBold}> {total} us $</Text>
+        </View>
       </View>
-      <View style={styles.row}>
-        <Text style={styles.text}> Delivery fee</Text>
-        <Text style={styles.text}> 10 us $</Text>
-      </View>
-      <View style={styles.row}>
-        <Text style={styles.textBold}> Total</Text>
-        <Text style={styles.textBold}> 410,10 us $</Text>
-      </View>
-    </View>
-  );
+    );
+  };
   return (
     <>
       <FlatList
-        data={cart}
+        data={cartItems}
         renderItem={({ item }) => <CartListItem cartItem={item} />}
-        ListFooterComponent={<ShoppingCartTotals />}
+        ListFooterComponent={ShoppingCartTotals}
       />
       <Pressable style={styles.button}>
         <Text style={styles.buttonText}>Check out</Text>
@@ -41,6 +59,7 @@ const styles = StyleSheet.create({
     margin: 20,
     borderColor: "gainsboro",
     borderTopWidth: 1,
+    marginBottom: 90,
   },
   row: {
     flexDirection: "row",

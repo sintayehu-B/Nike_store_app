@@ -13,9 +13,7 @@ import { ProductSlice } from "../store/ProductsSlice";
 const ProductsScreen = ({ navigation }) => {
   const products = useSelector((state) => state.products.products);
   const dispatch = useDispatch();
-  const productOnPressHandler = (item) => {
-    // update selected products
-  };
+
   return (
     <FlatList
       style={styles.container}
